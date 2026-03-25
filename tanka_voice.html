@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Her Voice | Tanka Boatwoman Speaks</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', 'Times New Roman', serif;
+            background: #f5f0e6;
+            color: #2c2b28;
+            line-height: 1.6;
+            padding: 2rem 1rem;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #fffef7;
+            border-radius: 24px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+            overflow: hidden;
+        }
+
+        .artwork {
+            background: #2c2b28;
+            text-align: center;
+            padding: 2rem;
+            position: relative;
+            min-height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .artwork img {
+            max-width: 100%;
+            height: auto;
+            max-height: 400px;
+            object-fit: contain;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+
+        .placeholder-message {
+            color: #aaa;
+            text-align: center;
+        }
+
+        .upload-btn {
+            position: absolute;
+            bottom: 12px;
+            right: 12px;
+            background: rgba(0,0,0,0.6);
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            cursor: pointer;
+            font-family: inherit;
+            transition: background 0.2s;
+        }
+
+        .upload-btn:hover {
+            background: rgba(0,0,0,0.8);
+        }
+
+        .info {
+            padding: 1.5rem 2rem;
+            border-bottom: 1px solid #e5dfd3;
+        }
+
+        .title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            margin-bottom: 0.5rem;
+            color: #8b5a2b;
+        }
+
+        .subtitle {
+            font-size: 0.9rem;
+            color: #7a6a5a;
+            margin-bottom: 1rem;
+            font-style: italic;
+        }
+
+        .description {
+            font-size: 0.95rem;
+            color: #3e3a35;
+            margin-top: 1rem;
+            line-height: 1.7;
+        }
+
+        .activity {
+            padding: 2rem;
+            background: #fefaf2;
+        }
+
+        .prompt {
+            background: #f3efe7;
+            padding: 1.2rem 1.5rem;
+            border-radius: 20px;
+            margin-bottom: 2rem;
+            border-left: 4px solid #c17b3a;
+            font-style: italic;
+        }
+
+        .prompt p {
+            margin: 0;
+            font-size: 1rem;
+            color: #4a3b2c;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 1rem;
+            font-size: 1rem;
+            font-family: inherit;
+            border: 1px solid #ddd0be;
+            border-radius: 16px;
+            resize: vertical;
+            background: white;
+            transition: border 0.2s;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #c17b3a;
+            box-shadow: 0 0 0 2px rgba(193,123,58,0.2);
+        }
+
+        button {
+            background: #8b5a2b;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.8rem;
+            font-size: 1rem;
+            border-radius: 40px;
+            cursor: pointer;
+            font-family: inherit;
+            margin-top: 0.75rem;
+            transition: background 0.2s;
+        }
+
+        button:hover {
+            background: #6e451f;
+        }
+
+        .voice-wall {
+            margin-top: 2rem;
+            border-top: 1px solid #e5dfd3;
+            padding-top: 1.5rem;
+        }
+
+        .voice-wall h3 {
+            font-size: 1.1rem;
+            font-weight: normal;
+            color: #8b5a2b;
+            margin-bottom: 1rem;
+            letter-spacing: 1px;
+        }
+
+        .voices {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            max-height: 300px;
+            overflow-y: auto;
+            padding-right: 0.5rem;
+        }
+
+        .voice-card {
+            background: white;
+            padding: 0.8rem 1rem;
+            border-radius: 20px;
+            border: 1px solid #f0e4d4;
+            font-size: 0.9rem;
+            color: #2c2b28;
+            transition: all 0.2s;
+        }
+
+        .voice-card:hover {
+            background: #fff7ed;
+            border-color: #dbbc8c;
+        }
+
+        .voice-text {
+            font-style: italic;
+            margin-bottom: 0.3rem;
+        }
+
+        .voice-meta {
+            font-size: 0.75rem;
+            color: #b09b82;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .like-btn {
+            background: none;
+            border: none;
+            color: #b98f64;
+            cursor: pointer;
+            font-size: 0.8rem;
+            padding: 0;
+            margin: 0;
+        }
+
+        .like-btn:hover {
+            color: #c17b3a;
+            background: none;
+        }
+
+        .empty-message {
+            text-align: center;
+            color: #b09b82;
+            padding: 1.5rem;
+            font-style: italic;
+        }
+
+        footer {
+            text-align: center;
+            padding: 1.5rem;
+            font-size: 0.75rem;
+            color: #b09b82;
+            border-top: 1px solid #e5dfd3;
+            background: #fffef7;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <!-- Artwork Area -->
+    <div class="artwork" id="artworkArea">
+        <img id="artworkImage" src="" alt="George Chinnery - Tanka Boatwoman" style="display: none;">
+        <div id="placeholderMessage" class="placeholder-message">
+            🖼️ Click the button below to upload the artwork
+        </div>
+        <button id="uploadImageBtn" class="upload-btn">📁 Upload Image</button>
+        <input type="file" id="imageUpload" accept="image/*" style="display: none;">
+    </div>
+
+    <!-- Artwork Information -->
+    <div class="info">
+        <div class="title">Tanka Boatwoman</div>
+        <div class="subtitle">George Chinnery (1774–1852) | c. 1852 | Oil on canvas | 28 × 23.8 cm</div>
+        <div class="description">
+            George Chinnery painted numerous Tanka women, among whom A-lai and A-su were his most frequent models. 
+            The Tanka girls in his works are often portrayed with full figures, friendly smiles, and warm, approachable demeanors—qualities clearly present in this painting. 
+            This subject became one of his signature themes.<br><br>
+            The woman in this painting wears a rattan hat and traditional Tanka clothing, holding a kerchief in her hand. 
+            Chinnery's signature style is evident throughout: swift, assured brushstrokes, and his beloved vermilion red used to highlight the softness of her cheeks, lips, arms, and fingers, creating delicate shadows. 
+            Through this elegant composition, a young woman of the working class is elevated into a vision of natural beauty.
+        </div>
+    </div>
+
+    <!-- Activity Area -->
+    <div class="activity">
+        <div class="prompt">
+            <p>✨ Chinnery brought this Tanka woman across the ocean, making her seen by the Western world.<br>
+            If she could speak, what would she say? Write a monologue for her in the first person.</p>
+        </div>
+
+        <div class="input-area">
+            <textarea id="voiceInput" rows="3" placeholder="For example: 'I spend my days on the boat. Foreigners always want to paint me.' or 'My name is A-su, not just 'Tanka woman'.'"></textarea>
+            <button id="submitBtn">💬 Leave Her Voice</button>
+        </div>
+
+        <div class="voice-wall">
+            <h3>🎧 The Voice Wall · Her Words</h3>
+            <div id="voicesContainer" class="voices">
+                <div class="empty-message">No voices yet. Be the first to speak for her.</div>
+            </div>
+        </div>
+    </div>
+    <footer>
+        Exhibition: How They Were Seen · Online Learning Activity · Giving Voice to the Women in Art
+    </footer>
+</div>
+
+<script>
+    // Image upload and storage
+    const imageInput = document.getElementById('imageUpload');
+    const uploadBtn = document.getElementById('uploadImageBtn');
+    const artworkImage = document.getElementById('artworkImage');
+    const placeholderMessage = document.getElementById('placeholderMessage');
+
+    function loadImage() {
+        const savedImage = localStorage.getItem('tanka_image');
+        if (savedImage) {
+            artworkImage.src = savedImage;
+            artworkImage.style.display = 'block';
+            placeholderMessage.style.display = 'none';
+        } else {
+            artworkImage.style.display = 'none';
+            placeholderMessage.style.display = 'block';
+        }
+    }
+
+    function saveImage(imageDataUrl) {
+        localStorage.setItem('tanka_image', imageDataUrl);
+        artworkImage.src = imageDataUrl;
+        artworkImage.style.display = 'block';
+        placeholderMessage.style.display = 'none';
+    }
+
+    uploadBtn.addEventListener('click', () => {
+        imageInput.click();
+    });
+
+    imageInput.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (file && file.type.startsWith('image/')) {
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                saveImage(event.target.result);
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+
+    // Voice Wall functionality
+    let voices = [];
+
+    function loadVoices() {
+        const stored = localStorage.getItem('tanka_voices');
+        if (stored) {
+            try {
+                voices = JSON.parse(stored);
+            } catch(e) { console.error(e); }
+        }
+        renderVoices();
+    }
+
+    function saveVoices() {
+        localStorage.setItem('tanka_voices', JSON.stringify(voices));
+    }
+
+    function renderVoices() {
+        const container = document.getElementById('voicesContainer');
+        if (!voices.length) {
+            container.innerHTML = '<div class="empty-message">No voices yet. Be the first to speak for her.</div>';
+            return;
+        }
+
+        const sorted = [...voices].reverse();
+        container.innerHTML = sorted.map(voice => `
+            <div class="voice-card" data-id="${voice.id}">
+                <div class="voice-text">“${escapeHtml(voice.text)}”</div>
+                <div class="voice-meta">
+                    <span>📝 ${voice.time}</span>
+                    <button class="like-btn" data-id="${voice.id}">❤️ ${voice.likes}</button>
+                </div>
+            </div>
+        `).join('');
+
+        document.querySelectorAll('.like-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const id = parseInt(btn.dataset.id);
+                likeVoice(id);
+            });
+        });
+    }
+
+    function addVoice(text) {
+        if (!text.trim()) {
+            alert('Please write something for her.');
+            return false;
+        }
+        const newVoice = {
+            id: Date.now(),
+            text: text.trim(),
+            time: new Date().toLocaleString('en-US'),
+            likes: 0
+        };
+        voices.push(newVoice);
+        saveVoices();
+        renderVoices();
+        return true;
+    }
+
+    function likeVoice(id) {
+        const voice = voices.find(v => v.id === id);
+        if (voice) {
+            voice.likes += 1;
+            saveVoices();
+            renderVoices();
+        }
+    }
+
+    function escapeHtml(str) {
+        return str.replace(/[&<>]/g, function(m) {
+            if (m === '&') return '&amp;';
+            if (m === '<') return '&lt;';
+            if (m === '>') return '&gt;';
+            return m;
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        loadImage();
+        loadVoices();
+
+        const submitBtn = document.getElementById('submitBtn');
+        const inputEl = document.getElementById('voiceInput');
+
+        submitBtn.addEventListener('click', () => {
+            const text = inputEl.value;
+            if (addVoice(text)) {
+                inputEl.value = '';
+            }
+        });
+
+        inputEl.addEventListener('keydown', (e) => {
+            if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+                e.preventDefault();
+                submitBtn.click();
+            }
+        });
+    });
+</script>
+</body>
+</html>
